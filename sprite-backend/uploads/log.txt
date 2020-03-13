@@ -1,0 +1,7 @@
+﻿allow_rotate=0
+trim_transparent=0
+horiz=2
+creating /home/mapoz/rgame555/555/game/graphics/spine/cleo.atlas: importing pngs... 
+timeA=0.492198728creating atlas... saving file... done!
+
+timeB=30.414647077
