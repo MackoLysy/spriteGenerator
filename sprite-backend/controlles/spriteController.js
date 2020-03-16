@@ -23,6 +23,10 @@ const upload = async (req, res, next) => {
         }
     }
 }
+const getall = async (req, res, next) => {
+    var item;
+}
+
 
 function generateLink(filename) {
     var name = "http://" + ip.address() + ":" + 3000 + "/uploads/" + filename;

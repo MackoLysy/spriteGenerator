@@ -18,4 +18,8 @@ const spriteSchema = new Schema({
 const models = {};
 models.sprites = mongoose.model('sprites', spriteSchema);
 
+const getAllSprites = function (gameId) {
+
+};
+
 module.exports = models.sprites;

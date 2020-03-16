@@ -1,4 +1,5 @@
 var express = require('express');
+// var cors1 = require('cors');
 var ip = require('ip');
 var app = express();
 const bodyParser = require('body-parser')
@@ -6,7 +7,7 @@ const fileUpload = require('express-fileupload');
 
 
 var spriteRouter = require('./routes/spriteRouter');
-
+// app.use(cors1());
 app.use(fileUpload({
     createParentPath: true
 }));
