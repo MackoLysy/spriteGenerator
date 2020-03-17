@@ -23,9 +23,8 @@ const upload = async (req, res, next) => {
         }
     }
 }
-const getall = async (req, res, next) => {
-    var item;
-}
+
+
 
 
 function generateLink(filename) {

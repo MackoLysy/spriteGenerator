@@ -5,8 +5,12 @@
       <mdb-navbar-brand href="https://mdbootstrap.com/docs/vue/" target="_blank">Games</mdb-navbar-brand>
       <mdb-navbar-toggler>
         <mdb-navbar-nav left>
-          <mdb-nav-item v-on:click="chagneGame(1)" :class="activeGame === 1 && 'active'">Lava Link</mdb-nav-item>
-          <mdb-nav-item v-on:click="chagneGame(2)" :class="activeGame === 2 && 'active'">Royal Link</mdb-nav-item>
+          <mdb-nav-item
+            v-for="(game, i) in games"
+            :key="i"
+            v-on:click="chagneGame(i+1, game._id)"
+            :class="activeGame === (i+1) && 'active'"
+          >{{game.name}}</mdb-nav-item>
         </mdb-navbar-nav>
       </mdb-navbar-toggler>
     </mdb-navbar>
@@ -57,7 +61,7 @@
     <!-- /Sidebar  -->
     <main>
       <div class="mt-5 p-5">
-        <router-view :gameId="activeGame"></router-view>
+        <router-view :gameId="gameId"></router-view>
       </div>
       <ftr color="primary-color-dark" class="text-center font-small darken-2">
         <hr class="my4" />
@@ -112,6 +116,8 @@ import {
   waves
 } from "mdbvue";
 
+import axios from "axios";
+
 export default {
   name: "AdminTemplate",
   components: {
@@ -128,15 +134,29 @@ export default {
   data() {
     return {
       activeItem: 1,
-      activeGame: 1
+      activeGame: 1,
+      gameId: "",
+      apiLink: "http://localhost:3000",
+      games: null
     };
   },
-  beforeMount() {
-    // this.activeItem = this.$route.matched[0].props.default.page;
+  mounted() {
+    this.getGames();
   },
   methods: {
-    chagneGame(id) {
+    chagneGame(id, gameId) {
       this.activeGame = id;
+      this.gameId = gameId;
+    },
+    getGames() {
+      let vm = this;
+      axios.get(vm.apiLink + "/games").then(response => {
+        vm.games = response.data;
+        if (vm.games.length > 0) {
+          vm.activeGame = 1;
+          vm.gameId = response.data[0]._id;
+        }
+      });
     }
   },
 

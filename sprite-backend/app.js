@@ -1,5 +1,5 @@
 var express = require('express');
-// var cors1 = require('cors');
+var cors = require('cors');
 var ip = require('ip');
 var app = express();
 const bodyParser = require('body-parser')
@@ -7,7 +7,9 @@ const fileUpload = require('express-fileupload');
 
 
 var spriteRouter = require('./routes/spriteRouter');
-// app.use(cors1());
+
+var gamesRouter = require('./routes/gamesRouter');
+app.use(cors());
 app.use(fileUpload({
     createParentPath: true
 }));
@@ -20,10 +22,8 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 
-app.get('/', function (req, res) {
-    res.send({ status: true, message: "file uploaded!" });
-});
+app.use('/games', gamesRouter);
+app.use('/sprite', spriteRouter);
 
-app.use('/sprite', spriteRouter)
 app.listen(3000);
 console.log("App start: http://" + ip.address() + ":" + 3000);

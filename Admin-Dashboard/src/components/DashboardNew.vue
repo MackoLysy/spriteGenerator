@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Sprites</h1>
+    <h1>Sprites {{gameId}}</h1>
     <section>
       <mdb-row>
         <mdb-col md="12" class="mb-4">
@@ -46,7 +46,7 @@ export default {
     mdbTbl,
     mdbCardBody
   },
-  props: { gameId: { default: 1 } },
+  props: { gameId: { default: "" } },
 
   beforeMount: function() {},
   data: function() {
