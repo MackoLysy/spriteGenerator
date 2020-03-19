@@ -7,6 +7,16 @@ import App from './App'
 import router from './router'
 import store from './store'
 import * as VueGoogleMaps from 'vue2-google-maps'
+import {
+  mdbModal,
+  mdbModalHeader,
+  mdbModalTitle,
+  mdbModalBody,
+  mdbModalFooter,
+  mdbBtn,
+  mdbToastNotification
+} from "mdbvue";
+
 
 Vue.use(VueGoogleMaps, {
   load: {
@@ -14,6 +24,13 @@ Vue.use(VueGoogleMaps, {
   }
 })
 
+Vue.component('mdb-modal', mdbModal);
+Vue.component('mdb-modal-header', mdbModalHeader);
+Vue.component('mdb-modal-title', mdbModalTitle);
+Vue.component('mdb-modal-body', mdbModalBody);
+Vue.component('mdb-modal-footer', mdbModalFooter);
+Vue.component('mdb-btn', mdbBtn);
+Vue.component('mdb-toast-notification', mdbToastNotification);
 Vue.config.productionTip = false
 
 new Vue({

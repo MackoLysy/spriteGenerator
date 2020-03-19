@@ -2,29 +2,24 @@
 var spriteModel = require('../models/spirte');
 var ip = require('ip');
 
-const create = (req, res) => {
-
-}
-const upload = async (req, res, next) => {
+const add = async (req, res, next) => {
     const files = req.files;
     if (!files) {
-        res.send({ status: false, message: "no file uploaded!" });
+        res.json({ status: false, message: "no file uploaded!" });
     } else {
         for (const [key, value] of Object.entries(files)) {
             let file = req.files[key];
             file.mv("./uploads/" + file.name);
-            try {
-                await spriteModel.create({ name: file.name.split('.')[0], path: generateLink(file.name) });
-            } catch (error) {
-                res.send({ status: false, message: error.message });
-                return;
-            }
-            res.send({ status: true, message: "file " + file.name + " uploaded!" });
+            var result = await spriteModel.add({
+                name: req.body.name,
+                type: req.body.type,
+                gameId: req.body.gameId,
+                path: generateLink(file.name)
+            });
+            res.json({ status: true, message: result });
         }
     }
 }
-
-
 
 
 function generateLink(filename) {
@@ -32,7 +27,8 @@ function generateLink(filename) {
     return name;
 }
 
+
+
 module.exports = {
-    create: create,
-    upload: upload
+    add: add
 }

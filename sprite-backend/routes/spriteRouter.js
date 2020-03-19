@@ -5,6 +5,6 @@ const spriteController = require('../controlles/spriteController');
 
 let router = express.Router();
 
-router.post('/upload', spriteController.upload);
+router.post('/add', spriteController.add);
 
 module.exports = router;

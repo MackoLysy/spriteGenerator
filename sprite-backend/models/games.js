@@ -27,11 +27,12 @@ const getAll = async function () {
     return result;
 };
 
-const add = async function () {
+const add = async function (name) {
     var result;
+    console.log(name);
     try {
         result = await models.games.create({
-            name: "Lava Link"
+            name: name
         });
     } catch (error) {
         result = error;

@@ -2,14 +2,19 @@ var gameModel = require("../models/games");
 
 const getAll = async (req, res, next) => {
     var result = await gameModel.getAll();
-    console.log(result);
     res.json(result);
-    // res.ks({ status: true, message: result });
 };
 
 const add = async (req, res, next) => {
-    var result = await gameModel.add();
-    res.send({ status: true, message: result });
+    var name = req.body.gameName;
+    if(!name)
+    {
+        res.json({ status: false, message: "Cannot Inster empty!" });
+        return;
+    }
+    console.log(name);
+    var result = await gameModel.add(name);
+    res.json(result);
 };
 
 module.exports = {

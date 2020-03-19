@@ -2,7 +2,7 @@
   <div class="flexible-content">
     <!--Navbar-->
     <mdb-navbar class="flexible-navbar white" light position="top" scrolling>
-      <mdb-navbar-brand href="https://mdbootstrap.com/docs/vue/" target="_blank">Games</mdb-navbar-brand>
+      <mdb-navbar-brand href="/dashboardNew" target="_blank">Games</mdb-navbar-brand>
       <mdb-navbar-toggler>
         <mdb-navbar-nav left>
           <mdb-nav-item
@@ -11,6 +11,7 @@
             v-on:click="chagneGame(i+1, game._id)"
             :class="activeGame === (i+1) && 'active'"
           >{{game.name}}</mdb-nav-item>
+          <mdb-nav-item @click.native="modal = true">Add New Game</mdb-nav-item>
         </mdb-navbar-nav>
       </mdb-navbar-toggler>
     </mdb-navbar>
@@ -18,19 +19,10 @@
     <!-- Sidebar -->
     <div class="sidebar-fixed position-fixed">
       <a class="logo-wrapper">
+        
         <img alt class="img-fluid" src="./assets/logo_big.png" />
       </a>
       <mdb-list-group class="list-group-flush">
-        <!-- <router-link to="/dashboard" @click.native="activeItem = 1">
-          <mdb-list-group-item
-            :action="true"
-            :class="activeItem === 1 && 'active'"
-            ><mdb-icon
-              icon="chart-pie"
-              class="mr-3"
-            />Dashboard</mdb-list-group-item
-          >
-        </router-link>-->
         <router-link to="/dashboardNew" @click.native="activeItem = 1">
           <mdb-list-group-item :action="true" :class="activeItem === 1 && 'active'">
             <mdb-icon icon="chart-pie" class="mr-3" />DashboardNew
@@ -58,6 +50,22 @@
         </router-link>
       </mdb-list-group>
     </div>
+    <mdb-modal :show="modal" @close="modal = false">
+      <mdb-modal-header>
+        <mdb-modal-title>Add New Game</mdb-modal-title>
+      </mdb-modal-header>
+      <mdb-modal-body>
+        <!-- Default form login -->
+        <form>
+          <label for="defaultFormLoginEmailEx" class="black-text">Game Name:</label>
+          <input type="text" id="gameName" v-model="gameName" name="gameName" class="form-control" />
+        </form>
+      </mdb-modal-body>
+      <mdb-modal-footer>
+        <mdb-btn color="red" @click.native="modal = false">Close</mdb-btn>
+        <mdb-btn color="primary" @click="addGame()">Save changes</mdb-btn>
+      </mdb-modal-footer>
+    </mdb-modal>
     <!-- /Sidebar  -->
     <main>
       <div class="mt-5 p-5">
@@ -113,6 +121,12 @@ import {
   mdbListGroup,
   mdbListGroupItem,
   mdbFooter,
+  mdbModal,
+  mdbModalHeader,
+  mdbModalTitle,
+  mdbModalBody,
+  mdbModalFooter,
+  mdbBtn,
   waves
 } from "mdbvue";
 
@@ -129,6 +143,12 @@ export default {
     mdbListGroup,
     mdbListGroupItem,
     mdbIcon,
+    mdbModal,
+    mdbModalHeader,
+    mdbModalTitle,
+    mdbModalBody,
+    mdbModalFooter,
+    mdbBtn,
     ftr: mdbFooter
   },
   data() {
@@ -137,7 +157,9 @@ export default {
       activeGame: 1,
       gameId: "",
       apiLink: "http://localhost:3000",
-      games: null
+      games: null,
+      modal: false,
+      gameName: null
     };
   },
   mounted() {
@@ -157,6 +179,19 @@ export default {
           vm.gameId = response.data[0]._id;
         }
       });
+    },
+    addGame() {
+      if (this.gameName == null || this.gameName == "") {
+        console.log("Puste!");
+      } else {
+        let vm = this;
+        axios
+          .post(vm.apiLink + "/games/add", { gameName: this.gameName })
+          .then(() => {
+            vm.getGames();
+          });
+        this.modal = false;
+      }
     }
   },
 
